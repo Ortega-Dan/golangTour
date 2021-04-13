@@ -10,7 +10,6 @@ func WordCount(s string) map[string]int {
 	mappie := make(map[string]int)
 
 	for _, v := range strings.Fields(s) {
-
 		mappie[v] = mappie[v] + 1
 	}
 

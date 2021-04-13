@@ -1,44 +1,28 @@
 package main
 
-import (
-	"fmt"
-	"math"
-	"strconv"
+import "fmt"
 
-	"github.com/Ortega-Dan/golang-stdin/stdin"
-)
+// import "golang.org/x/tour/pic"
 
-func Sqrt(x float64) float64 {
+func Pic(dx, dy int) [][]uint8 {
 
-	lastZ := 0.0
+	y := make([][]uint8, dy)
 
-	z := 200.0
+	for yi, _ := range y {
+		y[yi] = make([]uint8, dx)
 
-	for i := 0; true; i++ {
-		z -= (z*z - x) / (2 * z)
-
-		fmt.Printf("Iteration %v, with result %v\n", i, z)
-		if math.Abs(z-lastZ) < 0.000001 {
-			fmt.Println()
-			return z
+		for xi := range y[yi] {
+			// y[yi][xi] = uint8((xi + yi) / 2)
+			// y[yi][xi] = uint8(xi * yi)
+			y[yi][xi] = uint8(xi ^ yi)
 		}
-		lastZ = z
 	}
-	fmt.Println()
-	return z
+	return y
 }
 
 func main() {
-
-	fmt.Print("Enter number to calculate the Square Root: ")
-
-	numba, _ := strconv.ParseFloat(stdin.ReadLine(), 64)
-
-	fmt.Println()
-	fmt.Println("Newton's Method Implementation:", Sqrt(numba))
-
-	fmt.Println("                  Math Library:", math.Sqrt(numba))
-
-	stdin.ReadLine()
-
+	// pic.Show(Pic)
+	for _, v := range Pic(4, 5) {
+		fmt.Println(v)
+	}
 }

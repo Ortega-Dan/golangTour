@@ -32,6 +32,6 @@ func fibonacci() func() int {
 func main() {
 	f := fibonacci()
 	for i := 0; i < 12; i++ {
-		fmt.Println(f())
+		fmt.Print(" ", f())
 	}
 }

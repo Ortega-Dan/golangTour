@@ -1,4 +1,6 @@
 //Read console input (STDIN) by importing: github.com/Ortega-Dan/golang-stdin/stdin
+//Catch panics by importing: github.com/Ortega-Dan/golang-panic-catcher/gpanic
+//Build most possible stripped binaries with: go build -ldflags "-s -w" -gcflags=-trimpath=x/y
 {
     "version": "0.2.0",
     "configurations": [

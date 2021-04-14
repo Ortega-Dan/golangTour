@@ -1,23 +1,48 @@
 package main
 
 import (
-	"golang.org/x/tour/reader"
+	"fmt"
+	"io"
+	"os"
+	"strings"
 )
 
-type MyReader struct{}
+type rot13Reader struct {
+	r io.Reader
+}
 
-// TODO: Add a Read([]byte) (int, error) method to MyReader.
-func (r MyReader) Read(array []byte) (int, error) {
+func (reada rot13Reader) Read(toFill []byte) (int, error) {
 
-	slice := array[:cap(array)]
+	holder := make([]byte, cap(toFill))
 
-	for index := range slice {
-		slice[index] = 'A'
+	bytes, err := reada.r.Read(holder)
+
+	if err != nil {
+		return 0, err
 	}
 
-	return cap(slice), nil
+	for i, v := range holder {
+
+		margin := byte(96)
+		if v < 97 {
+			margin = 64
+		}
+
+		// pretty much asking if it is NOT a letter
+		if v < 65 || (v > 90 && v < 97) || v > 122 {
+			toFill[i] = v
+		} else {
+			toFill[i] = (((v + 13) - margin) % 26) + margin
+		}
+	}
+
+	return bytes, nil
 }
 
 func main() {
-	reader.Validate(MyReader{})
+	stringie := "Lbh penpxrq gur pbqr!"
+	s := strings.NewReader(stringie)
+	r := rot13Reader{s}
+	fmt.Println(stringie)
+	io.Copy(os.Stdout, &r)
 }

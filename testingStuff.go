@@ -1,48 +1,41 @@
 package main
 
 import (
-	"fmt"
-	"io"
+	"image"
+	"image/color"
+	"image/png"
 	"os"
-	"strings"
 )
 
-type rot13Reader struct {
-	r io.Reader
+type MyImage struct{}
+
+// ColorModel returns the Image's color model.
+func (img MyImage) ColorModel() color.Model {
+	return color.RGBAModel
 }
 
-func (reada rot13Reader) Read(toFill []byte) (int, error) {
+// Bounds returns the domain for which At can return non-zero color.
+// The bounds do not necessarily contain the point (0, 0).
+func (img MyImage) Bounds() image.Rectangle {
+	return image.Rect(0, 0, 754, 333)
+}
 
-	holder := make([]byte, cap(toFill))
+// At returns the color of the pixel at (x, y).
+// At(Bounds().Min.X, Bounds().Min.Y) returns the upper-left pixel of the grid.
+// At(Bounds().Max.X-1, Bounds().Max.Y-1) returns the lower-right one.
+func (img MyImage) At(x, y int) color.Color {
 
-	bytes, err := reada.r.Read(holder)
+	// answer := uint8((x + y) / 2)
+	// answer := uint8(x * y)
+	answer := uint8(x ^ y)
 
-	if err != nil {
-		return 0, err
-	}
-
-	for i, v := range holder {
-
-		margin := byte(96)
-		if v < 97 {
-			margin = 64
-		}
-
-		// pretty much asking if it is NOT a letter
-		if v < 65 || (v > 90 && v < 97) || v > 122 {
-			toFill[i] = v
-		} else {
-			toFill[i] = (((v + 13) - margin) % 26) + margin
-		}
-	}
-
-	return bytes, nil
+	return color.RGBA{25, answer, 255, 255}
 }
 
 func main() {
-	stringie := "Lbh penpxrq gur pbqr!"
-	s := strings.NewReader(stringie)
-	r := rot13Reader{s}
-	fmt.Println(stringie)
-	io.Copy(os.Stdout, &r)
+	m := MyImage{}
+	// pic.ShowImage(m)
+
+	out, _ := os.Create("outie.png")
+	png.Encode(out, m)
 }

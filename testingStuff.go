@@ -28,6 +28,7 @@ func (img MyImage) At(x, y int) color.Color {
 	// answer := uint8((x + y) / 2)
 	// answer := uint8(x * y)
 	answer := uint8(x ^ y)
+	// answer := uint8(x % (y + 1))
 
 	return color.RGBA{25, answer, 255, 255}
 }

@@ -2,81 +2,38 @@ package main
 
 import (
 	"fmt"
-
-	"golang.org/x/tour/tree"
+	"sync"
+	"time"
 )
 
-// Walk walks the tree t sending all values
-// from the tree to the channel ch.
-func Walk(t *tree.Tree, ch chan int) {
-
-	if t != nil {
-
-		if t.Left != nil {
-			Walk(t.Left, ch)
-		}
-
-		ch <- t.Value
-
-		if t.Right != nil {
-			Walk(t.Right, ch)
-		}
-	}
-
+// SafeCounter is safe to use concurrently.
+type SafeCounter struct {
+	mu sync.Mutex
+	v  map[string]int
 }
 
-// Same determines whether the trees
-// t1 and t2 contain the same values.
-func Same(t1, t2 *tree.Tree) bool {
-
-	if t1 != nil && t2 != nil {
-		areSame := true
-
-		ch1 := make(chan int)
-		ch2 := make(chan int)
-
-		go walker(t1, ch1)
-		go walker(t2, ch2)
-
-		for v1 := range ch1 {
-
-			v2 := <-ch2
-
-			if v1 != v2 {
-				areSame = false
-			}
-		}
-
-		return areSame
-	}
-
-	return false
-
+// Inc increments the counter for the given key.
+func (c *SafeCounter) Inc(key string) {
+	c.mu.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	c.v[key]++
+	c.mu.Unlock()
 }
 
-// convenience function to close the channel after
-// the tree ends its recursive operation
-func walker(tr *tree.Tree, ch chan int) {
-	Walk(tr, ch)
-	close(ch)
+// Value returns the current value of the counter for the given key.
+func (c *SafeCounter) Value(key string) int {
+	c.mu.Lock()
+	// Lock so only one goroutine at a time can access the map c.v.
+	defer c.mu.Unlock()
+	return c.v[key]
 }
 
 func main() {
-
-	ch := make(chan int)
-
-	// testing walk method
-	go walker(tree.New(1), ch)
-	// for range testing
-	for v := range ch {
-		fmt.Println(v)
+	c := SafeCounter{v: make(map[string]int)}
+	for i := 0; i < 1000; i++ {
+		go c.Inc("somekey")
 	}
 
-	fmt.Println()
-
-	// testing Same function
-	fmt.Println("Have the same content: ", Same(tree.New(1), tree.New(2)))
-	fmt.Println("Have the same content: ", Same(tree.New(1), tree.New(1)))
-	fmt.Println("Have the same content: ", Same(tree.New(3), tree.New(3)))
-
+	time.Sleep(3 * time.Millisecond)
+	fmt.Println(c.Value("somekey"))
 }

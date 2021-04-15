@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"sync"
+	"time"
 )
 
 // fakeFetcher is Fetcher that returns canned results.
@@ -73,13 +75,23 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 		fmt.Println(err)
 		return
 	}
+
 	fmt.Printf("found: %s %q\n", url, body)
 	for _, u := range urls {
-		Crawl(u, depth-1, fetcher)
+
+		_, alreadyInThere := mappie.LoadOrStore(url, true)
+
+		if !alreadyInThere {
+			Crawl(u, depth-1, fetcher)
+		}
 	}
 	return
 }
 
+var mappie sync.Map
+
 func main() {
 	Crawl("https://golang.org/", 4, fetcher)
+
+	time.Sleep(2 * time.Second)
 }

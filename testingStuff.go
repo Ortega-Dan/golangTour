@@ -30,7 +30,7 @@ func Walk(t *tree.Tree, ch chan int) {
 func Same(t1, t2 *tree.Tree) bool {
 
 	if t1 != nil && t2 != nil {
-		same := true
+		areSame := true
 
 		ch1 := make(chan int)
 		ch2 := make(chan int)
@@ -42,12 +42,12 @@ func Same(t1, t2 *tree.Tree) bool {
 
 			v2 := <-ch2
 
-			if v1 == v2 {
-				same = false
+			if v1 != v2 {
+				areSame = false
 			}
 		}
 
-		return same
+		return areSame
 	}
 
 	return false
@@ -71,5 +71,12 @@ func main() {
 	for v := range ch {
 		fmt.Println(v)
 	}
+
+	fmt.Println()
+
+	// testing Same function
+	fmt.Println("Have the same content: ", Same(tree.New(1), tree.New(2)))
+	fmt.Println("Have the same content: ", Same(tree.New(1), tree.New(1)))
+	fmt.Println("Have the same content: ", Same(tree.New(3), tree.New(3)))
 
 }

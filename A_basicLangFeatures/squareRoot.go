@@ -35,7 +35,9 @@ func TestingStuff_main() {
 	numba, _ := strconv.ParseFloat(stdin.ReadLine(), 64)
 
 	fmt.Println()
-	fmt.Printf("%1.4f\n", Sqrt(numba))
+	fmt.Println("Newton's Method Implementation:", Sqrt(numba))
+
+	fmt.Println("                  Math Library:", math.Sqrt(numba))
 
 	println("Press Enter to finish execution")
 	stdin.ReadLine()

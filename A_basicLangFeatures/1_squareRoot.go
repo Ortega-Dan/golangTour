@@ -28,7 +28,7 @@ func Sqrt(x float64) float64 {
 	return z
 }
 
-func TestingStuff_main() {
+func SquareRoot_main() {
 
 	fmt.Print("Enter number to calculate the Square Root: ")
 

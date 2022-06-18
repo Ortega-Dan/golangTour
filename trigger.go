@@ -3,5 +3,5 @@ package main
 import "tourTaker/A_basicLangFeatures"
 
 func main() {
-	A_basicLangFeatures.Closures_main()
+	A_basicLangFeatures.ToString_main()
 }

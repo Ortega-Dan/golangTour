@@ -8,7 +8,7 @@ import (
 	"github.com/Ortega-Dan/golang-stdin/stdin"
 )
 
-func Sqrt(x float64) float64 {
+func sqrt_1(x float64) float64 {
 
 	lastZ := 0.0
 
@@ -35,7 +35,7 @@ func SquareRoot_main() {
 	numba, _ := strconv.ParseFloat(stdin.ReadLine(), 64)
 
 	fmt.Println()
-	fmt.Println("Newton's Method Implementation:", Sqrt(numba))
+	fmt.Println("Newton's Method Implementation:", sqrt_1(numba))
 
 	fmt.Println("                  Math Library:", math.Sqrt(numba))
 

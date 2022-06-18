@@ -1,4 +1,7 @@
 //Read console input (STDIN) by importing: github.com/Ortega-Dan/golang-stdin/stdin
+//Catch panics by importing: github.com/Ortega-Dan/golang-panic-catcher/gpanic
+//Build most possible stripped and cgo static binaries with:
+//go build -ldflags "-s -w -extldflags=-static" -gcflags=-trimpath=x/y
 {
     "version": "0.2.0",
     "configurations": [
@@ -11,7 +14,8 @@
             "remotePath": "${workspaceFolder}",
             "port": 23456,
             "host": "127.0.0.1",
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }

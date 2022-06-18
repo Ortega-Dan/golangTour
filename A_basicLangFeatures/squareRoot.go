@@ -1,4 +1,4 @@
-package main
+package A_basicLangFeatures
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ func Sqrt(x float64) float64 {
 	return z
 }
 
-func main() {
+func TestingStuff_main() {
 
 	fmt.Print("Enter number to calculate the Square Root: ")
 
@@ -37,6 +37,7 @@ func main() {
 	fmt.Println()
 	fmt.Printf("%1.4f\n", Sqrt(numba))
 
+	println("Press Enter to finish execution")
 	stdin.ReadLine()
 
 }

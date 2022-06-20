@@ -8,5 +8,5 @@ import (
 func main() {
 	// A_basicLangFeatures.FancyImageMatrixGeneration_main()
 
-	B_concurrency.ChannelsBasic_main()
+	B_concurrency.ChannelBasedBinaryTree_main()
 }

@@ -63,7 +63,7 @@ func (f fakeFetcher) Fetch(url string) (string, []string, error) {
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func Crawl(url string, depth int, fetcher Fetcher) {
-	defer waiter.Done()
+	defer crawl_waiter.Done()
 
 	if depth <= 0 {
 		return
@@ -83,17 +83,17 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 	fmt.Printf("found: %s %q\n", url, body)
 
 	for _, u := range urls {
-		waiter.Add(1)
+		crawl_waiter.Add(1)
 		go Crawl(u, depth-1, fetcher)
 	}
 }
 
 var mappie sync.Map
-var waiter sync.WaitGroup
+var crawl_waiter sync.WaitGroup
 
 func RecursiveWebCrawler_main() {
-	waiter.Add(1)
+	crawl_waiter.Add(1)
 	go Crawl("https://golang.org/", 4, fetcher)
-	waiter.Wait()
+	crawl_waiter.Wait()
 	// time.Sleep(1 * time.Second)
 }

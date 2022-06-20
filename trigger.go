@@ -8,5 +8,5 @@ import (
 func main() {
 	// A_basicLangFeatures.FancyImageMatrixGeneration_main()
 
-	B_concurrency.RecursiveWebCrawler_main()
+	B_concurrency.GoroutinesWithWaiters_main()
 }

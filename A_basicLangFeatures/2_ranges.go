@@ -10,7 +10,7 @@ func picc(dx, dy int) [][]uint8 {
 
 	y := make([][]uint8, dy)
 
-	for yi, _ := range y {
+	for yi := range y {
 		y[yi] = make([]uint8, dx)
 
 		for xi := range y[yi] {

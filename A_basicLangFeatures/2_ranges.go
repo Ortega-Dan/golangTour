@@ -6,7 +6,7 @@ import (
 	"golang.org/x/tour/pic"
 )
 
-func Pic(dx, dy int) [][]uint8 {
+func picc(dx, dy int) [][]uint8 {
 
 	y := make([][]uint8, dy)
 
@@ -24,11 +24,13 @@ func Pic(dx, dy int) [][]uint8 {
 
 func Ranges_main() {
 
-	pic.Show(Pic)
+	pic.Show(picc)
 
 	println()
 
-	for _, v := range Pic(4, 5) {
+	for _, v := range picc(4, 5) {
 		fmt.Println(v)
 	}
+
+	println("\nINFO: convert the base64 output image above to a png by doing:\necho 'theBase64string' | base64 -d > theFilenameToSave.png")
 }

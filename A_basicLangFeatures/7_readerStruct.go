@@ -7,9 +7,9 @@ import (
 type MyReader struct{}
 
 // Adding a Read([]byte) (int, error) method to MyReader.
-func (r MyReader) Read(array []byte) (int, error) {
+func (r MyReader) Read(arrayToFill []byte) (int, error) {
 
-	slice := array[:cap(array)]
+	slice := arrayToFill[:cap(arrayToFill)]
 
 	for index := range slice {
 		slice[index] = 'A'
